@@ -61,7 +61,6 @@ public class HashTable_OA extends DataCounter {
 		int index = myHash.hash(data) % myData.length;
 		
 		probe(data, index, 0);
-		size++;
 	}
 	
 	private void rehash(int prime) {
@@ -73,7 +72,15 @@ public class HashTable_OA extends DataCounter {
 			DataCount myRehashData = myIterator.next();
 			String data = myRehashData.data;
 			int index = myHash.hash(data) % newData.length;
-			newData[index] = myRehashData;
+			if (newData[index] == null) {
+				newData[index] = myRehashData;
+			} else {
+				int i = 1;
+				while (newData[(index + i*i) % newData.length] != null) {
+					i++;
+				}
+				newData[(index + i*i) % newData.length] = myRehashData;
+			}
 		}
 		
 		myData = newData;
@@ -86,6 +93,7 @@ public class HashTable_OA extends DataCounter {
 		
 		if (myData[newIndex] == null) {
 			myData[newIndex] = new DataCount(data, 1);
+			size++;
 		} else if (myComp.compare(myData[newIndex].data, data) == 0){
 			myData[newIndex].count++;
 		} else {
