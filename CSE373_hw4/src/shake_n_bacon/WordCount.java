@@ -17,11 +17,17 @@ public class WordCount {
 		DataCount[] myList = new DataCount[counter.getSize()];
 		SimpleIterator myIterator = counter.getIterator();
 		int i = 0;
-		
+		int sum = 0;
+		int sum2 = 0;
 		while(myIterator.hasNext()) {
 			myList[i] = myIterator.next();
+			sum += myList[i].count;
+			sum2 += counter.getCount(myList[i].data);
+			sum2 += counter.getCount("thiswordisnotthere");
 			i++;
 		}
+		System.out.printf("%d unique, %d total %d counted\n", myList.length, sum, sum2);
+		
 		return myList;
 	}
 
