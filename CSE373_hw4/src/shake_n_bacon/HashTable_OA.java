@@ -101,6 +101,10 @@ public class HashTable_OA extends DataCounter {
 		}
 	}
 
+	private int indexProbe(int index, int probeNum) {
+		return (index + probeNum*probeNum) % myData.length;
+	}
+	
 	@Override
 	public int getSize() {
 		return size;
@@ -114,7 +118,7 @@ public class HashTable_OA extends DataCounter {
 		int newIndex = index;
 		while (myComp.compare(myData[newIndex].data, data) != 0) {
 			offset++;
-			newIndex = (index + offset*offset) % myData.length;
+			newIndex = indexProbe(index, offset);
 		}
 		return myData[newIndex].count;
 	}
@@ -153,10 +157,8 @@ public class HashTable_OA extends DataCounter {
 			curIndex++;
 			
 			// Make sure that the next piece of data is not null too
-			if (hasNext()) {
-				while (hasNext() && myData[curIndex] == null) {
-					curIndex++;
-				}
+			while (hasNext() && myData[curIndex] == null) {
+				curIndex++;
 			}
 				
 			return curData;
